@@ -1,11 +1,9 @@
 ---
-# Main task file for my_own_role
-
-- name: Create or update file using my_own_module
+- name: Create or update file using my_own_module from collection
   my_own_namespace.yandex_cloud_elk.my_own_module:
     path: "{{ my_own_module_path }}"
     content: "{{ my_own_module_content }}"
-    backup: "{{ my_own_module_backup }}"
+    force: "{{ my_own_module_force }}"
   register: file_operation_result
 
 - name: Show info if file was changed

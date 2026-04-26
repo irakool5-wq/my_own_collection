@@ -1,0 +1,31 @@
+
+---
+# Main playbook to demonstrate the collection usage
+
+- name: Deploy files using my_own_namespace.yandex_cloud_elk collection
+  hosts: all
+  gather_facts: false
+  
+  # Важно: указываем коллекцию, чтобы модули находились
+  collections:
+    - my_own_namespace.yandex_cloud_elk
+  
+  tasks:
+    # Вариант 1: Использование роли
+    - name: Include my_own_role with custom parameters
+      include_role:
+        name: my_own_role
+      vars:
+        my_own_module_path: /tmp/from_role_example.txt
+        my_own_module_content: |
+          This file was created by my_own_role
+          from my_own_namespace.yandex_cloud_elk collection
+          Timestamp: {{ ansible_date_time.iso8601 | default('N/A') }}
+        my_own_module_backup: true
+    
+    # Вариант 2: Прямой вызов модуля из коллекции
+    - name: Direct module call example
+      my_own_module:
+        path: /tmp/direct_call_example.txt
+        content: "Called my_own_module directly from collection"
+        backup: false

@@ -1,0 +1,14 @@
+---
+# Main task file for my_own_role
+
+- name: Create or update file using my_own_module
+  my_own_namespace.yandex_cloud_elk.my_own_module:
+    path: "{{ my_own_module_path }}"
+    content: "{{ my_own_module_content }}"
+    backup: "{{ my_own_module_backup }}"
+  register: file_operation_result
+
+- name: Show info if file was changed
+  debug:
+    msg: "File {{ my_own_module_path }} was {{ 'created/updated' if file_operation_result.changed else 'already up to date' }}"
+  when: file_operation_result.changed
